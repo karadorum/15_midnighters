@@ -42,4 +42,7 @@ def get_local_datetime(attempt):
 
 if __name__ == '__main__':
     pages = get_number_of_pages()
-    print(get_midnighters(load_attempts(pages)))
+    users =  get_midnighters(load_attempts(pages))
+    print('This users never sleep:')
+    for user in users:
+        print(user)
