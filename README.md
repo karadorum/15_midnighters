@@ -5,7 +5,7 @@ Script allows to know who from devman users uploaded assignment in night time be
 # How To Use
 
 To run script on Linux:
-`bash
+`
 $ python3 seek_dev_nighters.py
 This users coding in the night:
 john_2013
