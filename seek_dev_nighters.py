@@ -3,24 +3,20 @@ import pytz
 from datetime import datetime
 
 
-
-def get_number_of_pages():
-    first_page = 1
-    url = 'https://devman.org/api/challenges/solution_attempts/?page={}'.format(first_page)
-    response = requests.get(url)
-    number_of_pages = response.json()['number_of_pages']
-    return number_of_pages
-    
-
-def load_attempts(pages):
+def load_attempts():
     url = 'https://devman.org/api/challenges/solution_attempts'
-    for page in range(1, pages):
-        request_params = {'page': page}  
+    page = 1
+    while True:
+        request_params = {'page': page}
         response = requests.get(url, request_params)
-        json_api_page = response.json()['records']
-        for attempt in json_api_page:
-            yield attempt 
-        
+        attempts = response.json()['records']
+        number_of_pages = response.json()['number_of_pages']
+        for attempt in attempts:
+            yield attempt
+        page += 1
+        if page >= number_of_pages:
+            break
+
 
 def get_midnighters(attempts):
     midnighters = []
@@ -37,12 +33,12 @@ def get_midnighters(attempts):
 
 def get_local_datetime(attempt):
     user_timezone = pytz.timezone(attempt.get('timezone'))
-    user_time = datetime.fromtimestamp(attempt.get('timestamp'), tz= user_timezone)
+    user_time = datetime.fromtimestamp(attempt.get('timestamp'), tz=user_timezone)
     return user_time
 
+
 if __name__ == '__main__':
-    pages = get_number_of_pages()
-    users =  get_midnighters(load_attempts(pages))
+    users = get_midnighters(load_attempts())
     print('This users coding in the night:')
     for user in users:
         print(user)
