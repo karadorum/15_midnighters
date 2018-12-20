@@ -3,7 +3,6 @@ import pytz
 from datetime import datetime
 
 
-<<<<<<< HEAD
 def load_attempts():
     url = 'https://devman.org/api/challenges/solution_attempts'
     page = 1
@@ -17,25 +16,6 @@ def load_attempts():
         page += 1
         if page >= number_of_pages:
             break
-=======
-def get_number_of_pages():
-    first_page = 1
-    url = 'https://devman.org/api/challenges/solution_attempts'
-    request_params = {'page': first_page}
-    response = requests.get(url, request_params)
-    number_of_pages = response.json()['number_of_pages']
-    return number_of_pages
-
-
-def load_attempts(pages):
-    url = 'https://devman.org/api/challenges/solution_attempts'
-    for page in range(1, pages):
-        request_params = {'page': page}
-        response = requests.get(url, request_params)
-        json_api_page = response.json()['records']
-        for attempt in json_api_page:
-            yield attempt
->>>>>>> 1ba91e3ffc21b88583cd6844ba3eb7ed01aa4bba
 
 
 def get_midnighters(attempts):
@@ -58,12 +38,7 @@ def get_local_datetime(attempt):
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     users = get_midnighters(load_attempts())
-=======
-    pages = get_number_of_pages()
-    users = get_midnighters(load_attempts(pages))
->>>>>>> 1ba91e3ffc21b88583cd6844ba3eb7ed01aa4bba
     print('This users coding in the night:')
     for user in users:
         print(user)
